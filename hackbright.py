@@ -64,6 +64,13 @@ def assign_grade(github, title, grade):
     db_connection.commit()
     print "Successfully added %s's grade for %s" % (github, title)
 
+def assign_project(title, max_grade, description):
+    """Create a project with a given title, max grade and description of any length."""
+    QUERY = """INSERT INTO Projects (title, max_grade, description) VALUES(?, ?, ?)"""
+    db_cursor.execute(QUERY, (title, max_grade, description))
+    db_connection.commit()
+    print "Successfully added project: %s" % (title)
+
 
 def handle_input():
     """Main loop.
@@ -101,6 +108,12 @@ def handle_input():
             title = args[1]
             grade = args[2]
             assign_grade(github, title, grade)
+
+        elif command == "assign_project":
+            title = args[0]
+            max_grade = args[1]
+            description = " ".join(args[2:])
+            assign_project(title, max_grade, description)
 
 
 if __name__ == "__main__":
